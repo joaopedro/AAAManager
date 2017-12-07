@@ -1,6 +1,7 @@
 package com.ghip.aaa.security;
 
-import io.jsonwebtoken.Jwts;
+import com.ghip.aaa.service.TokenService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,13 +16,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.ghip.aaa.security.SecurityConstants.HEADER_STRING;
-import static com.ghip.aaa.security.SecurityConstants.SECRET;
 import static com.ghip.aaa.security.SecurityConstants.TOKEN_PREFIX;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+    @Autowired
+    private TokenService tokenService;
+
     public JWTAuthorizationFilter(AuthenticationManager authManager) {
         super(authManager);
     }
+
     @Override
     protected void doFilterInternal(HttpServletRequest req,
                                     HttpServletResponse res,
@@ -39,11 +43,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {
             // parse the token.
-            String user = Jwts.parser()
-                    .setSigningKey(SECRET)
-                    .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
-                    .getBody()
-                    .getSubject();
+            token = token.replace(TOKEN_PREFIX, "");
+            String user = tokenService.getUserIdFromToken(token);
             if (user != null) {
                 return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
             }
