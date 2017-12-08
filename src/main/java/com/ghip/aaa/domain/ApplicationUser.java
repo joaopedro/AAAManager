@@ -8,10 +8,20 @@ import javax.persistence.Id;
 
 @Entity
 public class ApplicationUser {
+
     @Id
     private String username;
     private String password;
     private String comment;
+
+    public ApplicationUser(){}
+
+    public ApplicationUser(String username, String password, String comment) {
+        this.username = username;
+        this.password = password;
+        this.comment = comment;
+    }
+
     public String getUsername() {
         return username;
     }

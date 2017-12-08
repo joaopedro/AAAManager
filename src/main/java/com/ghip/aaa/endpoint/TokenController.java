@@ -3,6 +3,7 @@ package com.ghip.aaa.endpoint;
 import com.ghip.aaa.domain.ApplicationUser;
 import com.ghip.aaa.domain.Token;
 import com.ghip.aaa.repository.ApplicationUserRepository;
+import com.ghip.aaa.security.UsernamePasswordException;
 import com.ghip.aaa.service.TokenService;
 import com.ghip.aaa.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,10 @@ public class TokenController {
     @PostMapping("/generate")
     public Token generateToken(@RequestBody ApplicationUser user) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-        if(bCryptPasswordEncoder.encode(user.getPassword()).equals(userDetails.getPassword())){
+        if(bCryptPasswordEncoder.matches(user.getPassword(),userDetails.getPassword())){
             return tokenService.generateToken(userDetails.getUsername());
         }else{
-            throw  new RuntimeException("Cannot Generate Token");
+            throw new UsernamePasswordException("Password does not match");
         }
     }
 }

@@ -13,9 +13,11 @@ import static java.util.Collections.emptyList;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     private ApplicationUserRepository applicationUserRepository;
+
     public UserDetailsServiceImpl(ApplicationUserRepository applicationUserRepository) {
         this.applicationUserRepository = applicationUserRepository;
     }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         ApplicationUser applicationUser = applicationUserRepository.findByUsername(username);
