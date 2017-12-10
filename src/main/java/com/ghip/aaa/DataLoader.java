@@ -22,7 +22,8 @@ public class DataLoader implements ApplicationRunner {
     }
 
     public void run(ApplicationArguments args) {
-        userRepository.save(new ApplicationUser("Admin",
-                bCryptPasswordEncoder.encode("123"), "lala"));
+        userRepository.save(new ApplicationUser("admin@ghip.com",
+                bCryptPasswordEncoder.encode("123"), "Default Admin user",
+                "ADMIN"));
     }
 }

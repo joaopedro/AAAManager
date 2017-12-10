@@ -14,13 +14,16 @@ public class ApplicationUser {
     private String password;
     private String comment;
 
-    public ApplicationUser(){}
-
-    public ApplicationUser(String username, String password, String comment) {
+    public ApplicationUser(String username, String password, String comment, String role) {
         this.username = username;
         this.password = password;
         this.comment = comment;
+        this.role = role;
     }
+
+    private String role;
+
+    public ApplicationUser(){}
 
     public String getUsername() {
         return username;
