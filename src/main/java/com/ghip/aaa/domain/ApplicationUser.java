@@ -13,6 +13,7 @@ public class ApplicationUser {
     private String username;
     private String password;
     private String comment;
+    private String role;
 
     public ApplicationUser(String username, String password, String comment, String role) {
         this.username = username;
@@ -20,8 +21,6 @@ public class ApplicationUser {
         this.comment = comment;
         this.role = role;
     }
-
-    private String role;
 
     public ApplicationUser(){}
 
@@ -44,5 +43,13 @@ public class ApplicationUser {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
