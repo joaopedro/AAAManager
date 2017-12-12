@@ -41,6 +41,11 @@ public class TokenController {
         }
     }
 
+    @PostMapping("/invalidate/{tokenId}")
+    public void invalidate(@PathVariable String tokenId) {
+        tokenService.invalidateToken(tokenId);
+    }
+
     @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
     public ResponseEntity handle() {
         return new ResponseEntity(HttpStatus.OK);

@@ -7,7 +7,8 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ghip.aaa.domain.Token;
-import org.springframework.security.core.GrantedAuthority;
+import com.ghip.aaa.repository.TokenRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -19,6 +20,12 @@ import static com.ghip.aaa.security.SecurityConstants.TOKEN_PREFIX;
 
 @Service
 public class TokenService {
+    private TokenRepository tokenRepository;
+
+    @Autowired
+    public TokenService(TokenRepository tokenRepository) {
+        this.tokenRepository = tokenRepository;
+    }
 
     public Token generateToken(String username){
         try {
@@ -29,7 +36,7 @@ public class TokenService {
                     .withClaim("createdAt", new Date())
                     .withExpiresAt(expiresAt)
                     .sign(algorithm);
-            return new Token(token, expiresAt, TOKEN_PREFIX);
+            return tokenRepository.save(new Token(token, expiresAt, TOKEN_PREFIX));
         } catch (UnsupportedEncodingException exception) {
             exception.printStackTrace();
             //TODO: log WRONG Encoding message
@@ -61,5 +68,9 @@ public class TokenService {
     public boolean isTokenValid(String token) {
         String userId = this.getUserIdFromToken(token);
         return userId != null;
+    }
+
+    public void invalidateToken(String tokenId){
+        tokenRepository.delete(tokenId);
     }
 }
