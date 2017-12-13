@@ -2,21 +2,22 @@ package com.ghip.aaa.domain;
 
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.List;
 
 @Entity
 public class ApplicationUser {
 
     @Id
     private String username;
+    private String name;
     private String password;
+    private List<String> role;
     private String comment;
-    private String role;
 
-    public ApplicationUser(String username, String password, String comment, String role) {
+    public ApplicationUser(String username, String name, String password, String comment, List<String> role) {
         this.username = username;
+        this.name = name;
         this.password = password;
         this.comment = comment;
         this.role = role;
@@ -45,11 +46,19 @@ public class ApplicationUser {
         this.comment = comment;
     }
 
-    public String getRole() {
+    public List<String> getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(List<String> role) {
         this.role = role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
