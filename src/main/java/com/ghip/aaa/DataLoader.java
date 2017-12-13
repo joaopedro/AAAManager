@@ -1,6 +1,7 @@
 package com.ghip.aaa;
 
 import com.ghip.aaa.domain.ApplicationUser;
+import com.ghip.aaa.domain.UserAuthority;
 import com.ghip.aaa.repository.ApplicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -24,12 +25,28 @@ public class DataLoader implements ApplicationRunner {
     }
 
     public void run(ApplicationArguments args) {
-        userRepository.save(new ApplicationUser("admin@ghip.com",
+        UserAuthority adminAuth = new UserAuthority("ADMIN");
+        ApplicationUser adminUser = new ApplicationUser("admin@ghip.com",
                 "Administrator", bCryptPasswordEncoder.encode("123"), "Default Admin user",
-                Arrays.asList("ADMIN")));
+                Arrays.asList(adminAuth));
+        adminAuth.setUser(adminUser);
 
-        userRepository.save(new ApplicationUser("user1@ghip.com",
-                "Administrator", bCryptPasswordEncoder.encode("password"), "Default non Admin user",
-                Arrays.asList("USER")));
+        userRepository.save(adminUser);
+
+        UserAuthority userAuth = new UserAuthority("USER");
+        ApplicationUser user1 = new ApplicationUser("user1@ghip.com",
+                "ApplicationUser One", bCryptPasswordEncoder.encode("password"), "Default non Admin user",
+                Arrays.asList(userAuth));
+        userAuth.setUser(user1);
+        userRepository.save(user1);
+
+        UserAuthority adminAuth2 = new UserAuthority("ADMIN");
+        UserAuthority userAuth2 = new UserAuthority("USER");
+        ApplicationUser user2 = new ApplicationUser("user2@ghip.com",
+                "ApplicationUser Two", bCryptPasswordEncoder.encode("password"), "Default ApplicationUser with Admin and ApplicationUser",
+                Arrays.asList(adminAuth2, userAuth2));
+        adminAuth2.setUser(user2);
+        userAuth2.setUser(user2);
+        userRepository.save(user2);
     }
 }

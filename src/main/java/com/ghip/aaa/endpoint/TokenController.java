@@ -32,10 +32,10 @@ public class TokenController {
     }
 
     @PostMapping("/generate")
-    public Token generateToken(@RequestBody ApplicationUser user) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-        if(bCryptPasswordEncoder.matches(user.getPassword(),userDetails.getPassword())){
-            return tokenService.generateToken(userDetails.getUsername());
+    public Token generateToken(@RequestBody ApplicationUser applicationUser) {
+        ApplicationUser userDetails = applicationUserRepository.getOne(applicationUser.getUsername());
+        if(bCryptPasswordEncoder.matches(applicationUser.getPassword(),userDetails.getPassword())){
+            return tokenService.generateToken(userDetails.getUsername(), userDetails.getAuthorities());
         }else{
             throw new UsernamePasswordException("Password does not match");
         }

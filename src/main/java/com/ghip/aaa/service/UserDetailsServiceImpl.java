@@ -2,7 +2,6 @@ package com.ghip.aaa.service;
 
 import com.ghip.aaa.domain.ApplicationUser;
 import com.ghip.aaa.repository.ApplicationUserRepository;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,10 +19,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        ApplicationUser applicationUser = applicationUserRepository.findByUsername(username);
-        if (applicationUser == null) {
+        ApplicationUser applicationApplicationUser = applicationUserRepository.findByUsername(username);
+        if (applicationApplicationUser == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new User(applicationUser.getUsername(), applicationUser.getPassword(), emptyList());
+        return new org.springframework.security.core.userdetails.User(applicationApplicationUser.getUsername(), applicationApplicationUser.getPassword(), emptyList());
     }
 }

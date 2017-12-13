@@ -19,9 +19,9 @@ public class ApplicationUserController {
 	}
 
 	@PostMapping
-	public void adduser(@RequestBody ApplicationUser user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+	public void adduser(@RequestBody ApplicationUser applicationUser) {
+        applicationUser.setPassword(bCryptPasswordEncoder.encode(applicationUser.getPassword()));
+        userRepository.save(applicationUser);
 	}
 
 	@GetMapping
@@ -30,11 +30,11 @@ public class ApplicationUserController {
 	}
 
 	@PutMapping("/{username}")
-	public void editUser(@PathVariable String username, @RequestBody ApplicationUser user) {
-        ApplicationUser existingUser = userRepository.findOne(username);
-		Assert.notNull(existingUser , "User not found");
-        existingUser.setComment(user.getComment());
-        userRepository.save(existingUser);
+	public void editUser(@PathVariable String username, @RequestBody ApplicationUser applicationUser) {
+        ApplicationUser existingApplicationUser = userRepository.findOne(username);
+		Assert.notNull(existingApplicationUser, "ApplicationUser not found");
+        existingApplicationUser.setComment(applicationUser.getComment());
+        userRepository.save(existingApplicationUser);
 	}
 
 	@DeleteMapping("/{username}")

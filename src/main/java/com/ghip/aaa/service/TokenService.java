@@ -7,12 +7,16 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ghip.aaa.domain.Token;
+import com.ghip.aaa.domain.UserAuthority;
 import com.ghip.aaa.repository.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.ghip.aaa.security.SecurityConstants.EXPIRATION_TIME;
 import static com.ghip.aaa.security.SecurityConstants.SECRET;
@@ -27,13 +31,15 @@ public class TokenService {
         this.tokenRepository = tokenRepository;
     }
 
-    public Token generateToken(String username){
+    public Token generateToken(String username, Collection<UserAuthority> authorities){
         try {
+            String[] auths = authorities.stream().map(auth -> auth.getName() ).toArray( size -> new String[ size ] );
             Date expiresAt = new Date(System.currentTimeMillis() + EXPIRATION_TIME);
             Algorithm algorithm = Algorithm.HMAC256(SECRET);
             String token = JWT.create()
-                    .withClaim("userId", username)
+                    .withClaim("sub", username)
                     .withClaim("createdAt", new Date())
+                    .withArrayClaim ("scopes", auths)
                     .withExpiresAt(expiresAt)
                     .sign(algorithm);
             return tokenRepository.save(new Token(token, expiresAt, TOKEN_PREFIX));
@@ -42,7 +48,7 @@ public class TokenService {
             //TODO: log WRONG Encoding message
         } catch (JWTCreationException exception) {
             exception.printStackTrace();
-            //TODOD: log Token Signing Failed
+            //TODO: log Token Signing Failed
         }
         return null;
     }

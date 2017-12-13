@@ -3,7 +3,10 @@ package com.ghip.aaa.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.List;
+import javax.persistence.OneToMany;
+import java.util.Collection;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 public class ApplicationUser {
@@ -12,15 +15,16 @@ public class ApplicationUser {
     private String username;
     private String name;
     private String password;
-    private List<String> role;
+    @OneToMany(cascade=ALL, mappedBy="user", orphanRemoval = true)
+    private Collection<UserAuthority> authorities;
     private String comment;
 
-    public ApplicationUser(String username, String name, String password, String comment, List<String> role) {
+    public ApplicationUser(String username, String name, String password, String comment, Collection<UserAuthority> authorities) {
         this.username = username;
         this.name = name;
         this.password = password;
         this.comment = comment;
-        this.role = role;
+        this.authorities = authorities;
     }
 
     public ApplicationUser(){}
@@ -46,19 +50,19 @@ public class ApplicationUser {
         this.comment = comment;
     }
 
-    public List<String> getRole() {
-        return role;
-    }
-
-    public void setRole(List<String> role) {
-        this.role = role;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Collection<UserAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Collection<UserAuthority> authorities) {
+        this.authorities = authorities;
     }
 }
