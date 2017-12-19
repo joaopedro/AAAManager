@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.ghip.aaa.domain.ApplicationUser;
 import com.ghip.aaa.domain.Token;
 import com.ghip.aaa.domain.UserAuthority;
 import com.ghip.aaa.repository.TokenRepository;
@@ -16,6 +17,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.ghip.aaa.security.SecurityConstants.EXPIRATION_TIME;
@@ -31,18 +33,21 @@ public class TokenService {
         this.tokenRepository = tokenRepository;
     }
 
-    public Token generateToken(String username, Collection<UserAuthority> authorities){
+    public Token generateToken(ApplicationUser user, Collection<UserAuthority> authorities){
         try {
             String[] auths = authorities.stream().map(auth -> auth.getName() ).toArray( size -> new String[ size ] );
             Date expiresAt = new Date(System.currentTimeMillis() + EXPIRATION_TIME);
             Algorithm algorithm = Algorithm.HMAC256(SECRET);
+            String tokenId = UUID.randomUUID().toString();
             String token = JWT.create()
-                    .withClaim("sub", username)
+                    .withClaim("sub", user.getUsername())
                     .withClaim("createdAt", new Date())
+                    .withClaim("jti", tokenId)
+                    .withClaim("given_name", user.getName())
                     .withArrayClaim ("scopes", auths)
                     .withExpiresAt(expiresAt)
                     .sign(algorithm);
-            return tokenRepository.save(new Token(token, expiresAt, TOKEN_PREFIX));
+            return tokenRepository.save(new Token(tokenId,token, expiresAt, TOKEN_PREFIX));
         } catch (UnsupportedEncodingException exception) {
             exception.printStackTrace();
             //TODO: log WRONG Encoding message

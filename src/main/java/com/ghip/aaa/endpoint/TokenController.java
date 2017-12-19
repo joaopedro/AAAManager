@@ -35,7 +35,7 @@ public class TokenController {
     public Token generateToken(@RequestBody ApplicationUser applicationUser) {
         ApplicationUser userDetails = applicationUserRepository.getOne(applicationUser.getUsername());
         if(bCryptPasswordEncoder.matches(applicationUser.getPassword(),userDetails.getPassword())){
-            return tokenService.generateToken(userDetails.getUsername(), userDetails.getAuthorities());
+            return tokenService.generateToken(userDetails, userDetails.getAuthorities());
         }else{
             throw new UsernamePasswordException("Password does not match");
         }

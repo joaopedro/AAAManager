@@ -1,5 +1,6 @@
 package com.ghip.aaa.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -9,8 +10,8 @@ import java.util.Date;
 
 @Entity
 public class Token {
-    @Id@GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @JsonIgnore
+    @Id
     private String tokenId;
 
     private String acessToken;
@@ -19,7 +20,8 @@ public class Token {
 
     public Token(){}
 
-    public Token(String acessToken, Date expiresIn, String tokenType) {
+    public Token(String tokenId, String acessToken, Date expiresIn, String tokenType) {
+        this.tokenId = tokenId;
         this.acessToken = acessToken;
         this.expiresIn = expiresIn;
         this.tokenType = tokenType;
