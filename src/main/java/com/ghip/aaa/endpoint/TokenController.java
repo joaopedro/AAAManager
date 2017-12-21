@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/token")
 public class TokenController {
@@ -46,8 +45,4 @@ public class TokenController {
         tokenService.invalidateToken(tokenId);
     }
 
-    @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
-    public ResponseEntity handle() {
-        return new ResponseEntity(HttpStatus.OK);
-    }
 }

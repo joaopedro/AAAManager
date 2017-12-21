@@ -21,13 +21,15 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests()
+        http.cors()
+            .and()
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            .authorizeRequests()
                 .antMatchers(TOKEN_GEN_URL).permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .addFilter(new JWTAuthorizationFilter(authenticationManager()));
+            .and()
+            .addFilter(new JWTAuthorizationFilter(authenticationManager()));
     }
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {

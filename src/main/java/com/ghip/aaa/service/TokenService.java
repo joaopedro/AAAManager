@@ -64,7 +64,7 @@ public class TokenService {
             JWTVerifier verifier = JWT.require(algorithm)
                     .build();
             DecodedJWT jwt = verifier.verify(token);
-            return jwt.getClaim("userId").asString();
+            return jwt.getClaim("sub").asString();
         } catch (UnsupportedEncodingException exception) {
             exception.printStackTrace();
             //TODO: log WRONG Encoding message
