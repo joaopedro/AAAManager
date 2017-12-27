@@ -2,8 +2,6 @@ package com.ghip.aaa.endpoint;
 
 import com.ghip.aaa.domain.ApplicationUser;
 import com.ghip.aaa.repository.ApplicationUserRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +14,10 @@ public class ApplicationUserController {
 
 	private ApplicationUserRepository userRepository;
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	public ApplicationUserController(ApplicationUserRepository userRepository) {
+
+	public ApplicationUserController(ApplicationUserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.userRepository = userRepository;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
 
 	@PostMapping

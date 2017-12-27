@@ -26,7 +26,7 @@ public class DataLoader implements ApplicationRunner {
 
     public void run(ApplicationArguments args) {
         UserAuthority adminAuth = new UserAuthority("ADMIN");
-        ApplicationUser adminUser = new ApplicationUser("admin@ghip.com",
+        ApplicationUser adminUser = new ApplicationUser("admin@ghip.com","admin@ghip.com",
                 "Admin", bCryptPasswordEncoder.encode("123"), "Default Admin user",
                 Arrays.asList(adminAuth));
         adminAuth.setUser(adminUser);
@@ -34,7 +34,7 @@ public class DataLoader implements ApplicationRunner {
         userRepository.save(adminUser);
 
         UserAuthority userAuth = new UserAuthority("USER");
-        ApplicationUser user1 = new ApplicationUser("user1@ghip.com",
+        ApplicationUser user1 = new ApplicationUser("user1@ghip.com","user1@ghip.com",
                 "User1", bCryptPasswordEncoder.encode("password"), "Default non Admin user",
                 Arrays.asList(userAuth));
         userAuth.setUser(user1);
@@ -42,7 +42,7 @@ public class DataLoader implements ApplicationRunner {
 
         UserAuthority adminAuth2 = new UserAuthority("ADMIN");
         UserAuthority userAuth2 = new UserAuthority("USER");
-        ApplicationUser user2 = new ApplicationUser("user2@ghip.com",
+        ApplicationUser user2 = new ApplicationUser("user2@ghip.com","user2@ghip.com",
                 "UserAdmin2", bCryptPasswordEncoder.encode("password"), "Default ApplicationUser with Admin and ApplicationUser",
                 Arrays.asList(adminAuth2, userAuth2));
         adminAuth2.setUser(user2);

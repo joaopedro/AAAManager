@@ -1,7 +1,8 @@
-  DROP TABLE Token;
+DROP TABLE Token;
 
 CREATE TABLE ApplicationUser (
    username VARCHAR(50) NOT NULL,
+   EMAIL VARCHAR(50) NOT NULL,
    name VARCHAR(50),
    password VARCHAR(50) NOT NULL,
    comment VARCHAR(20),

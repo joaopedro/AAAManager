@@ -13,14 +13,16 @@ public class ApplicationUser {
 
     @Id
     private String username;
+    private String email;
     private String name;
     private String password;
     @OneToMany(cascade=ALL, mappedBy="user", orphanRemoval = true)
     private Collection<UserAuthority> authorities;
     private String comment;
 
-    public ApplicationUser(String username, String name, String password, String comment, Collection<UserAuthority> authorities) {
+    public ApplicationUser(String username, String email, String name, String password, String comment, Collection<UserAuthority> authorities) {
         this.username = username;
+        this.email = email;
         this.name = name;
         this.password = password;
         this.comment = comment;
@@ -64,5 +66,13 @@ public class ApplicationUser {
 
     public void setAuthorities(Collection<UserAuthority> authorities) {
         this.authorities = authorities;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
