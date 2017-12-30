@@ -1,4 +1,4 @@
-package com.ghip.aaa.security;
+package com.ghip.aaa.exceptions;
 
 import org.springframework.security.core.AuthenticationException;
 

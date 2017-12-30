@@ -3,13 +3,10 @@ package com.ghip.aaa.endpoint;
 import com.ghip.aaa.domain.ApplicationUser;
 import com.ghip.aaa.domain.Token;
 import com.ghip.aaa.repository.ApplicationUserRepository;
-import com.ghip.aaa.security.UsernamePasswordException;
+import com.ghip.aaa.exceptions.UsernamePasswordException;
 import com.ghip.aaa.service.TokenService;
 import com.ghip.aaa.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,6 +1,8 @@
 package com.ghip.aaa.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -19,6 +21,8 @@ public class ApplicationUser {
     @OneToMany(cascade=ALL, mappedBy="user", orphanRemoval = true)
     private Collection<UserAuthority> authorities;
     private String comment;
+    @JsonIgnore
+    private boolean enabled = true;
 
     public ApplicationUser(String username, String email, String name, String password, String comment, Collection<UserAuthority> authorities) {
         this.username = username;
@@ -74,5 +78,13 @@ public class ApplicationUser {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
