@@ -1,7 +1,7 @@
 package com.ghip.aaa.endpoint;
 
 import com.ghip.aaa.domain.ApplicationUser;
-import com.ghip.aaa.exceptions.UserNotFoundException;
+import com.ghip.aaa.exceptions.ObjectFoundException;
 import com.ghip.aaa.repository.ApplicationUserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.Assert;
@@ -44,7 +44,7 @@ public class ApplicationUserController {
 	public void deleteUser(@PathVariable String username) {
 		ApplicationUser user = userRepository.findOne(username);
 		if(user == null)
-		    throw new UserNotFoundException("user "+ username + " not found");
+		    throw new ObjectFoundException("user "+ username + " not found");
 		user.setEnabled(false);
 		userRepository.save(user);
 	}

@@ -3,9 +3,7 @@ package com.ghip.aaa.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Collection;
 
 import static javax.persistence.CascadeType.ALL;
@@ -18,13 +16,18 @@ public class ApplicationUser {
     private String email;
     private String name;
     private String password;
-    @OneToMany(cascade=ALL, mappedBy="user", orphanRemoval = true)
-    private Collection<UserAuthority> authorities;
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "UserAuthority",
+            joinColumns = { @JoinColumn(name = "username") },
+            inverseJoinColumns = { @JoinColumn(name = "authority") }
+    )
+    private Collection<Authority> authorities;
     private String comment;
     @JsonIgnore
     private boolean enabled = true;
 
-    public ApplicationUser(String username, String email, String name, String password, String comment, Collection<UserAuthority> authorities) {
+    public ApplicationUser(String username, String email, String name, String password, String comment, Collection<Authority> authorities) {
         this.username = username;
         this.email = email;
         this.name = name;
@@ -64,11 +67,11 @@ public class ApplicationUser {
         this.name = name;
     }
 
-    public Collection<UserAuthority> getAuthorities() {
+    public Collection<Authority> getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(Collection<UserAuthority> authorities) {
+    public void setAuthorities(Collection<Authority> authorities) {
         this.authorities = authorities;
     }
 

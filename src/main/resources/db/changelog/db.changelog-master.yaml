@@ -1,0 +1,244 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: jpedro
+      changes:
+        - createTable:
+            tableName: Application_user
+            columns:
+              - column:
+                  name: username
+                  type: varchar(50)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: comment
+                  type: varchar(255)
+              - column:
+                   name: enabled
+                   type: boolean
+                   constraints:
+                     nullable: false
+        - createTable:
+            tableName: Authority
+            columns:
+              - column:
+                  name: id
+                  type: long
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: enabled
+                  type: boolean
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: User_authority
+            columns:
+              - column:
+                  name: username
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: authority
+                  type: long
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: Token
+            columns:
+              - column:
+                  name: token_id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: access_token
+                  type: varchar(2000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: expires_in
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: token_type
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: username
+            baseTableName: User_authority
+            constraintName: fk_authorities_users
+            referencedColumnNames: username
+            referencedTableName: Application_User
+        - addForeignKeyConstraint:
+            baseColumnNames: authority
+            baseTableName: User_authority
+            constraintName: fk_authorities
+            referencedColumnNames: id
+            referencedTableName: Authority
+        - addPrimaryKey:
+            columnNames: username, authority
+            tableName: User_authority
+            constraintName: pk_user_authorities
+        - createIndex:
+              columns:
+              - column:
+                  name: username
+                  type: varchar(50)
+              - column:
+                  name: authority
+                  type: long
+              indexName: ix_auth_username
+              tableName: User_authority
+              unique: true
+        - insert:
+              tableName: Authority
+              columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name:  name
+                  value: ADMIIN
+              - column:
+                  name: enabled
+                  value: true
+        - insert:
+              tableName: Authority
+              columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name:  name
+                  value: USER
+              - column:
+                  name: enabled
+                  value: true
+        - insert:
+              tableName: Application_user
+              columns:
+              - column:
+                  name: username
+                  value: admin@ghip.com
+              - column:
+                  name:  email
+                  value: admin@ghip.com
+              - column:
+                  name: name
+                  value: Admin
+              - column:
+                  name: password
+                  value: $2a$10$dnWKPkQsY9cp1rEnd9TI7.0sJShH2x.xc0cPyMR..nQZfoOL0lIde
+              - column:
+                  name: comment
+                  value: Default Admin user
+              - column:
+                  name: enabled
+                  value: true
+        - insert:
+              tableName: Application_user
+              columns:
+              - column:
+                  name: username
+                  value: user1@ghip.com
+              - column:
+                  name:  email
+                  value: user1@ghip.com
+              - column:
+                  name: name
+                  value: User1
+              - column:
+                  name: password
+                  value: $2a$10$dnWKPkQsY9cp1rEnd9TI7.0sJShH2x.xc0cPyMR..nQZfoOL0lIde
+              - column:
+                  name: comment
+                  value: Default user1
+              - column:
+                  name: enabled
+                  value: true
+        - insert:
+              tableName: Application_user
+              columns:
+              - column:
+                  name: username
+                  value: user2@ghip.com
+              - column:
+                  name:  email
+                  value: user2@ghip.com
+              - column:
+                  name: name
+                  value: UserAdmin2
+              - column:
+                  name: password
+                  value: $2a$10$dnWKPkQsY9cp1rEnd9TI7.0sJShH2x.xc0cPyMR..nQZfoOL0lIde
+              - column:
+                  name: comment
+                  value: Default Admin and User user
+              - column:
+                  name: enabled
+                  value: true
+        - insert:
+              tableName: User_authority
+              columns:
+              - column:
+                  name: username
+                  value: admin@ghip.com
+              - column:
+                  name:  authority
+                  value: 1
+        - insert:
+              tableName: User_authority
+              columns:
+              - column:
+                  name: username
+                  value: user1@ghip.com
+              - column:
+                  name:  authority
+                  value: 2
+        - insert:
+              tableName: User_authority
+              columns:
+              - column:
+                  name: username
+                  value: user2@ghip.com
+              - column:
+                  name:  authority
+                  value: 1
+        - insert:
+              tableName: User_authority
+              columns:
+              - column:
+                  name: username
+                  value: user2@ghip.com
+              - column:
+                  name:  authority
+                  value: 2

@@ -14,7 +14,7 @@ public class Token {
     @Id
     private String tokenId;
 
-    private String acessToken;
+    private String accessToken;
     private Date expiresIn;
     private String tokenType;
 
@@ -22,18 +22,18 @@ public class Token {
 
     public Token(String tokenId, String acessToken, Date expiresIn, String tokenType) {
         this.tokenId = tokenId;
-        this.acessToken = acessToken;
+        this.accessToken = acessToken;
         this.expiresIn = expiresIn;
         this.tokenType = tokenType;
     }
 
 
     public String getAcessToken() {
-        return acessToken;
+        return accessToken;
     }
 
     public void setAcessToken(String acessToken) {
-        this.acessToken = acessToken;
+        this.accessToken = acessToken;
     }
 
     public Date getExpiresIn() {

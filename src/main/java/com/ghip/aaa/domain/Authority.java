@@ -3,19 +3,22 @@ package com.ghip.aaa.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
-public class UserAuthority {
+public class Authority {
     @Id@GeneratedValue
     private long id;
     private String name;
     @JsonIgnore
-    @ManyToOne
-    private ApplicationUser user;
+    @ManyToMany(mappedBy = "authorities")
+    private Collection<ApplicationUser> user;
+    @JsonIgnore
+    private boolean enabled = true;
 
-    public UserAuthority() {}
+    public Authority() {}
 
-    public UserAuthority(String name) {
+    public Authority(String name) {
         this.name = name;
     }
 
@@ -35,11 +38,19 @@ public class UserAuthority {
         this.id = id;
     }
 
-    public ApplicationUser getUser() {
+    public Collection<ApplicationUser> getUser() {
         return user;
     }
 
-    public void setUser(ApplicationUser user) {
+    public void setUser(Collection<ApplicationUser> user) {
         this.user = user;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

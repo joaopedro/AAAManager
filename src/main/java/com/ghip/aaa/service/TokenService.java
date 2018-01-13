@@ -8,7 +8,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ghip.aaa.domain.ApplicationUser;
 import com.ghip.aaa.domain.Token;
-import com.ghip.aaa.domain.UserAuthority;
+import com.ghip.aaa.domain.Authority;
 import com.ghip.aaa.repository.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +16,7 @@ import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static com.ghip.aaa.security.SecurityConstants.EXPIRATION_TIME;
 import static com.ghip.aaa.security.SecurityConstants.SECRET;
@@ -33,7 +31,7 @@ public class TokenService {
         this.tokenRepository = tokenRepository;
     }
 
-    public Token generateToken(ApplicationUser user, Collection<UserAuthority> authorities){
+    public Token generateToken(ApplicationUser user, Collection<Authority> authorities){
         try {
             String[] auths = authorities.stream().map(auth -> auth.getName() ).toArray( size -> new String[ size ] );
             Date expiresAt = new Date(System.currentTimeMillis() + EXPIRATION_TIME);
