@@ -1,9 +1,13 @@
 package com.ghip.aaa.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Authority {
@@ -12,7 +16,10 @@ public class Authority {
     private String name;
     @JsonIgnore
     @ManyToMany(mappedBy = "authorities")
-    private Collection<ApplicationUser> user;
+    private Collection<ApplicationUser> users;
+    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
+    @OneToMany(mappedBy = "pk.authority", cascade=CascadeType.ALL)
+    private Set<AssetAuthority> assetAuthorities = new HashSet<AssetAuthority>(0);
     @JsonIgnore
     private boolean enabled = true;
 
@@ -38,12 +45,12 @@ public class Authority {
         this.id = id;
     }
 
-    public Collection<ApplicationUser> getUser() {
-        return user;
+    public Collection<ApplicationUser> getUsers() {
+        return users;
     }
 
-    public void setUser(Collection<ApplicationUser> user) {
-        this.user = user;
+    public void setUsers(Collection<ApplicationUser> users) {
+        this.users = users;
     }
 
     public boolean isEnabled() {
@@ -52,5 +59,13 @@ public class Authority {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Set<AssetAuthority> getAssetAuthorities() {
+        return assetAuthorities;
+    }
+
+    public void setAssetAuthorities(Set<AssetAuthority> assetAuthorities) {
+        this.assetAuthorities = assetAuthorities;
     }
 }

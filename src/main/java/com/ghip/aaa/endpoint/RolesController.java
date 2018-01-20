@@ -27,15 +27,16 @@ public class RolesController {
 		return authorityRepository.findByEnabled(true);
 	}
 
-	@PutMapping("/{id}")
-	public void editUser(@PathVariable long id, @RequestBody String name) {
+	public void editRole(@PathVariable long id, @RequestBody String name) {
         Authority authority = authorityRepository.findOne(id);
+		if(authority == null)
+			throw new ObjectFoundException("Role "+ id + " not found");
         authority.setName(name);
         authorityRepository.save(authority);
 	}
 
 	@DeleteMapping("/{id}")
-	public void deleteUser(@PathVariable long id) {
+	public void deleteRole(@PathVariable long id) {
 		Authority authority = authorityRepository.findOne(id);
 		if(authority == null)
 		    throw new ObjectFoundException("Role "+ id + " not found");

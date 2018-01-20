@@ -69,6 +69,54 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - createTable:
+            tableName: Asset
+            columns:
+              - column:
+                  name: id
+                  type: long
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: enabled
+                  type: boolean
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: Asset_Authority
+            columns:
+              - column:
+                  name: asset_id
+                  type: long
+                  constraints:
+                    nullable: false
+              - column:
+                  name: authority_id
+                  type: long
+                  constraints:
+                    nullable: false
+              - column:
+                  name: read
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: write
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: delete
+                  type: boolean
+                  constraints:
+                    nullable: false
+        - createTable:
             tableName: Token
             columns:
               - column:
@@ -242,3 +290,33 @@ databaseChangeLog:
               - column:
                   name:  authority
                   value: 2
+        - insert:
+              tableName: Asset
+              columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: name
+                  value: Access Management
+              - column:
+                  name:  enabled
+                  value: true
+        - insert:
+              tableName: Asset_authority
+              columns:
+              - column:
+                  name: asset_id
+                  value: 1
+              - column:
+                  name:  authority_id
+                  value: 1
+              - column:
+                  name:  read
+                  value: true
+              - column:
+                  name:  write
+                  value: true
+              - column:
+                  name:  delete
+                  value: true
