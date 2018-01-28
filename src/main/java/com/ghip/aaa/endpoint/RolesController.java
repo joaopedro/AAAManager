@@ -1,11 +1,13 @@
 package com.ghip.aaa.endpoint;
 
+import com.ghip.aaa.domain.AssetAuthority;
 import com.ghip.aaa.domain.Authority;
 import com.ghip.aaa.exceptions.ObjectFoundException;
 import com.ghip.aaa.repository.AuthorityRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/roles")
@@ -19,7 +21,12 @@ public class RolesController {
 
 	@PostMapping
 	public void addRole(@RequestBody Authority authority) {
-        authorityRepository.save(authority);
+
+		for (AssetAuthority assetAuthority : authority.getAssetAuthorities()) {
+			assetAuthority.getPk().setAuthority(authority);
+		}
+
+		authorityRepository.save(authority);
 	}
 
 	@GetMapping
