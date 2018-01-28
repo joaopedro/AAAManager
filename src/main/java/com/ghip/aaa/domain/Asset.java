@@ -12,7 +12,7 @@ public class Asset {
     private long id;
     private String name;
     @JsonIgnore
-    private boolean enabled;
+    private boolean enabled = true;
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.asset")
     private Set<AssetAuthority> authorities = new HashSet<AssetAuthority>(0);;
