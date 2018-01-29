@@ -1,5 +1,7 @@
 package com.ghip.aaa.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import java.util.Objects;

@@ -1,8 +1,6 @@
 package com.ghip.aaa.domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -17,7 +15,7 @@ public class Authority {
     @JsonIgnore
     @ManyToMany(mappedBy = "authorities")
     private Collection<ApplicationUser> users;
-    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
+//    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
     @OneToMany(mappedBy = "pk.authority", cascade=CascadeType.ALL)
     private Set<AssetAuthority> assetAuthorities = new HashSet<AssetAuthority>(0);
     @JsonIgnore

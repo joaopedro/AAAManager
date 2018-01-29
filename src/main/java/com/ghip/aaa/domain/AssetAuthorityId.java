@@ -1,5 +1,7 @@
 package com.ghip.aaa.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
@@ -10,6 +12,7 @@ public class AssetAuthorityId implements Serializable{
     @ManyToOne
     private Asset asset;
     @ManyToOne
+    @JsonIgnore
     private Authority authority;
 
     public Asset getAsset() {
