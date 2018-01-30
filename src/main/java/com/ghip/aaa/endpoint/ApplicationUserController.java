@@ -40,6 +40,11 @@ public class ApplicationUserController {
         userRepository.save(existingApplicationUser);
 	}
 
+	@GetMapping("/{username:.+}")
+	public ApplicationUser getUser(@PathVariable String username) {
+		return userRepository.findOne(username);
+	}
+
 	@DeleteMapping("/{username}")
 	public void deleteUser(@PathVariable String username) {
 		ApplicationUser user = userRepository.findOne(username);
